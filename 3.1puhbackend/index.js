@@ -1,7 +1,21 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 
+// JSON muotoisen pyynnön käsittely
 app.use(express.json());
+
+// Otetaan morgani käyttöön myös POST pyynnöissä
+morgan.token("body", (req) => {
+  return req.method === "POST" ? JSON.stringify(req.body) : "";
+});
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :body")
+);
+
+// Tiny konfiguraatio
+app.use(morgan("tiny"));
 
 let persons = [
   {
@@ -27,7 +41,7 @@ let persons = [
 ];
 
 app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>");
+  response.send("<h1>Hello Puhelinluettelo!</h1>");
 });
 
 // Hakee kaikki
