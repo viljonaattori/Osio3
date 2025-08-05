@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 let notes = [
   {
@@ -27,12 +28,13 @@ const requestLogger = (request, response, next) => {
   next();
 };
 
+app.use(cors());
+app.use(express.json());
 app.use(requestLogger);
 app.use(express.static("dist"));
-app.use(express.json());
 
 app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>");
+  response.send("<h1>Hello Worldre!</h1>");
 });
 
 app.get("/api/notes", (request, response) => {
