@@ -33,10 +33,6 @@ app.use(express.json());
 app.use(requestLogger);
 app.use(express.static("dist"));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
-});
-
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
