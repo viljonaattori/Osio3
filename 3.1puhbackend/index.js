@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 
-// JSON muotoisen pyynnön käsittely
+// JSON muotoisen pyynnön käsittely.
 app.use(express.json());
 
 // Otetaan morgani käyttöön myös POST pyynnöissä
