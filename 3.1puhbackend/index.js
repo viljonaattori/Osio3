@@ -1,11 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
-const cors = require("cors");
 
 // JSON muotoisen pyynnön käsittely
 app.use(express.json());
-app.use(cors());
 
 // Otetaan morgani käyttöön myös POST pyynnöissä
 morgan.token("body", (req) => {
