@@ -16,9 +16,9 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 app.use(express.static("dist"));
-// Tiny konfiguraatio
 app.use(morgan("tiny"));
 
+// Ei käytössä oleva taulukko
 let persons = [
   {
     name: "Arto Hellas",
