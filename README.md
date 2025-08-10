@@ -8,3 +8,5 @@ Linkki backendiin:
 https://osio3.onrender.com
 
 Render deActivoitu
+
+sovelluksen local käynnistys: node --watch index.js
