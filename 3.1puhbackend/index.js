@@ -1,6 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const Person = require("./models/person");
 
 // JSON muotoisen pyynnön käsittely.
 app.use(express.json());
@@ -46,32 +48,30 @@ app.get("/", (request, response) => {
 
 // Hakee kaikki
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+  Person.find({}).then((persons) => {
+    response.json(persons);
+  });
 });
 
 // Haku id perusteella
 app.get("/api/persons/:id", (request, response) => {
-  const id = request.params.id;
-  const person = persons.find((person) => person.id === id);
-  if (person) {
+  Person.findById(request.params.id).then((person) => {
     response.json(person);
-  } else {
-    response.status(404).end();
-  }
+  });
 });
 
 // Poisto id perusteella
 app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id;
-  persons = persons.filter((person) => person.id !== id);
 
-  response.status(204).end();
+  Person.findByIdAndRemove(id)
+    .then(() => {
+      response.status(204).end(); // 204 No Content: Merkki siitä, että poisto onnistui
+    })
+    .catch((error) => {
+      response.status(400).send({ error: "malformatted id" });
+    });
 });
-
-// Generoi satunnainen id
-const generateId = () => {
-  return Math.floor(Math.random() * 1000000).toString();
-};
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
@@ -84,27 +84,54 @@ app.post("/api/persons", (request, response) => {
   }
 
   // Tarkastetaan onko nimi jo olemassa
-  const nameExists = persons.some((p) => p.name === body.name);
-  if (nameExists) {
-    return response.status(400).json({
-      error: "name must be unique",
+  Person.findOne({ name: body.name })
+    .then((existingPerson) => {
+      if (existingPerson) {
+        return response.status(400).json({
+          error: "name must be unique",
+        });
+      }
+
+      // Luodaan uusi henkilö
+      const person = new Person({
+        name: body.name,
+        number: body.number,
+      });
+
+      // Tallennetaan henkilö tietokantaan
+      person
+        .save()
+        .then((savedPerson) => {
+          response.json(savedPerson);
+        })
+        .catch((error) => {
+          response.status(500).json({
+            error: "saving person failed",
+          });
+        });
+    })
+    .catch((error) => {
+      response.status(500).json({
+        error: "database error",
+      });
     });
-  }
-
-  const person = {
-    name: body.name,
-    number: body.number,
-    id: generateId(),
-  };
-
-  persons = persons.concat(person);
-  response.json(person);
 });
 
 app.get("/info", (request, response) => {
   const date = new Date();
-  response.send(`<div>Phonebook has info for ${persons.length} people</div>
-    <div>${date}</div>`);
+
+  Person.countDocuments({})
+    .then((count) => {
+      response.send(`
+        <div>Phonebook has info for ${count} people</div>
+        <div>${date}</div>
+      `);
+    })
+    .catch((error) => {
+      response
+        .status(500)
+        .send({ error: "Error retrieving data from database" });
+    });
 });
 
 const PORT = process.env.PORT || 3001;
