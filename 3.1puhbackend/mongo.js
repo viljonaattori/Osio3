@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 
 if (process.argv.length < 3) {
@@ -7,7 +8,8 @@ if (process.argv.length < 3) {
 
 const password = process.argv[2];
 
-const url = `mongodb+srv://1234:${password}@testicluster.tcwr09x.mongodb.net/osio3backend?retryWrites=true&w=majority&appName=testiCluster`;
+const url = process.env.MONGODB_URI;
+//const url = `mongodb+srv://1234:${password}@testicluster.tcwr09x.mongodb.net/osio3backend?retryWrites=true&w=majority&appName=testiCluster`;
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
