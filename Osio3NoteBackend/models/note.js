@@ -1,16 +1,9 @@
 const mongoose = require("mongoose");
 
-if (process.argv.length < 3) {
-  console.log("give password as argument");
-  process.exit(1);
-}
-
-const password = process.argv[2];
-const url = process.env.MONGODB_URI;
-// mongodb+srv://1234:${password}@testicluster.tcwr09x.mongodb.net/noteApp?retryWrites=true&w=majority&appName=testiCluster
-//const url = `mongodb+srv://1234:${password}@testicluster.tcwr09x.mongodb.net/noteApp?retryWrites=true&w=majority&appName=testiCluster`;
-
 mongoose.set("strictQuery", false);
+
+const url = process.env.MONGODB_URI;
+
 mongoose
   .connect(url)
   .then((result) => {
