@@ -88,7 +88,7 @@ app.post("/api/persons", (request, response, next) => {
         return next(error);
       }
 
-      // Luodaan uusi henkilö
+      // Luodaan uusi henkilö ja disti push
       const person = new Person({
         name: body.name,
         number: body.number,
