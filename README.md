@@ -16,3 +16,6 @@ tuotantoversion tekeminen:
 1. frontissa: npm run build
 2. dist kopiointi back endiin komennolla:
    esim : cp -r dist/ "C:/Users/35844/OneDrive - Karelia Ammattikorkeakoulu Oy/FullstackKurssi/Osio3/Osio3/Osio3NoteBackend"
+
+JÄIN KOHTAAN SUPERTEST
+-> KORJAA TESTI, yrittää jotain kautta yhdistää noteApp tietokantaan eikä testi

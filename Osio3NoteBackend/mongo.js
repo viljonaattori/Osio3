@@ -6,7 +6,8 @@ if (process.argv.length < 3) {
   process.exit(1)
 }
 
-const url = process.env.MONGODB_URI
+//const url = process.env.MONGODB_URI // Tuotanto
+const url = process.env.TEST_MONGODB_URI // Testaus
 //const url = `mongodb+srv://1234:${password}@testicluster.tcwr09x.mongodb.net/noteApp?retryWrites=true&w=majority&appName=testiCluster`;
 
 mongoose.set('strictQuery', false)
