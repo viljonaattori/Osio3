@@ -52,9 +52,3 @@ notesRouter.put('/:id', (request, response, next) => {
 })
 
 module.exports = notesRouter
-// Tässä exportti tapauksessa exportataan ainoastaan yksi "asia", joten mahdollisia käyttötapojakin on vain yksi:
-// const notesRouter = require('./controllers/notes')
-
-// ...
-
-// app.use('/api/notes', notesRouter)
