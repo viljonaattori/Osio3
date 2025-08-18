@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "Sitten vielä yksi muistiinpano",
+    "important": true,
+    "userId": "68a1c3335bd14255a1b08bd5"
+}
